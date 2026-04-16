@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Menú Principal</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Roboto Condensed', sans-serif;
+      background: url('https://i.imgur.com/2kotpZJ.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      color: black;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    h1 {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 3rem;
+      font-weight: 900;
+    }
+
+    .subtitle {
+      position: absolute;
+      top: 100px;
+      left: 60px;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .btn {
+      position: absolute;
+      width: 220px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: white;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    #btn1 { top: 150px; left: 60px; }
+    #btn2 { top: 200px; left: 60px; }
+    #btn3 { top: 250px; left: 60px; }
+    #btn4 { top: 300px; left: 60px; }
+    #btn5 { top: 350px; left: 60px; }
+    #btn6 { top: 400px; left: 60px; }
+
+    #btnSalirGuardar {
+      bottom: 30px;
+      left: 40%;
+    }
+
+    #btnSalirSinGuardar {
+      bottom: 30px;
+      left: 55%;
+    }
+
+    .reloj {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: white;
+      padding: 10px;
+      border: 1px solid black;
+      font-family: monospace;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h1>MENU PRINCIPAL</h1>
+    <div class="subtitle">RECEPCION NACIONAL</div>
+
+    <button id="btn1" class="btn">RECEPCION DE UNIDADES</button>
+    <button id="btn2" class="btn">RECIBO A RENDIR</button>
+    <button id="btn3" class="btn">INGRESO POR TRASPASO</button>
+    <button id="btn4" class="btn">EQUIPOS ROTABLES</button>
+    <button id="btn5" class="btn">INGRESO POR AJUSTE</button>
+    <button id="btn6" class="btn">INGRESO MANUAL</button>
+
+    <button id="btnSalirGuardar" class="btn">SALIR Y GUARDAR</button>
+    <button id="btnSalirSinGuardar" class="btn">SALIR SIN GUARDAR</button>
+
+    <div class="reloj">
+      <div id="hora">--:--:--</div>
+      <div id="fecha">--/--/----</div>
+    </div>
+
+  </div>
+
+  <script>
+    function actualizarReloj() {
+      const ahora = new Date();
+      document.getElementById('hora').textContent =
+        ahora.toLocaleTimeString('es-CL', { hour12: false });
+      document.getElementById('fecha').textContent =
+        ahora.toLocaleDateString('es-CL');
+    }
+
+    setInterval(actualizarReloj, 1000);
+    actualizarReloj();
+
+    document.getElementById('btn1').onclick = () => {
+      alert("Recepción de unidades");
+    };
+
+    document.getElementById('btn2').onclick = () => alert("No implementado");
+    document.getElementById('btn3').onclick = () => alert("No implementado");
+    document.getElementById('btn4').onclick = () => alert("No implementado");
+    document.getElementById('btn5').onclick = () => alert("No implementado");
+    document.getElementById('btn6').onclick = () => alert("No implementado");
+
+    document.getElementById('btnSalirGuardar').onclick = () => {
+      alert("Guardado (simulación)");
+    };
+
+    document.getElementById('btnSalirSinGuardar').onclick = () => {
+      location.reload();
+    };
+  </script>
+
+</body>
+</html>
