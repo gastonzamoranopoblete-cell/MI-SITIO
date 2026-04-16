@@ -1,52 +1,118 @@
-// === FUNCIÓN PRINCIPAL DE CARGA ===
-// Esta función se ejecuta cuando accedes al Web App.
-// Carga el archivo HTML 'formulario' que contiene todo el diseño visual.
-function doGet() {
-  return HtmlService
-    .createHtmlOutputFromFile('Copia de MenuPrincipal') // Carga el HTML llamado 'formulario.html'
-    .setTitle('Formulario de Registro - Control Manual') // Título del navegador
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL); // Permite insertar si usas <iframe>
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario</title>
 
-// === FUNCIÓN PARA LIMPIAR UN RUT ===
-// Esta función elimina puntos (.) y guiones (-), y convierte el texto a mayúsculas.
-// Se aplica tanto al RUT ingresado como a los RUT almacenados.
-function limpiarRut(rut) {
-  return rut
-    .toString()             // Asegura que sea texto
-    .replace(/\./g, "")     // Quita todos los puntos
-    .replace(/-/g, "")      // Quita el guion
-    .toUpperCase();         // Convierte todo a mayúsculas
-}
-
-// === FUNCIÓN PARA BUSCAR EL PROVEEDOR POR RUT CON CACHE ===
-// Esta función es llamada desde el formulario con google.script.run
-// Recibe un RUT (sin formato), lo busca en la hoja 'PROVEEDORES'
-// Usa CacheService para acelerar búsquedas repetidas.
-function buscarProveedorPorRut(rut) {
-  const cache = CacheService.getScriptCache();
-  const rutLimpio = limpiarRut(rut);
-  
-  // Intenta obtener el resultado desde la caché
-  let nombreProveedor = cache.get(rutLimpio);
-  if (nombreProveedor !== null) {
-    return nombreProveedor; // Retorna resultado cacheado rápido
-  }
-  
-  // Si no está en cache, busca en la hoja
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const hoja = ss.getSheetByName("PROVEEDORES");
-  const datos = hoja.getRange("A2:B" + hoja.getLastRow()).getValues();
-
-  for (let i = 0; i < datos.length; i++) {
-    const nombre = datos[i][0];
-    const rutEnHoja = limpiarRut(datos[i][1]);
-    if (rutEnHoja === rutLimpio) {
-      nombreProveedor = nombre;
-      cache.put(rutLimpio, nombreProveedor, 21600); // Cache por 6 horas (21600 segundos)
-      return nombreProveedor;
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background: #f4f4f4;
     }
-  }
-  
-  return ""; // No encontró proveedor
-}
+
+    h1 {
+      text-align: center;
+    }
+
+    .form-container {
+      background: white;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    #resultado {
+      margin-top: 15px;
+      font-weight: bold;
+      color: blue;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Formulario de Recepción</h1>
+
+  <div class="form-container">
+
+    <label>RUT:</label>
+    <input type="text" id="rut" placeholder="Ej: 12.345.678-9">
+
+    <button onclick="buscar()">Buscar Proveedor</button>
+
+    <p id="resultado"></p>
+
+    <hr>
+
+    <label>Nombre:</label>
+    <input type="text" id="nombre">
+
+    <label>Correo:</label>
+    <input type="email" id="correo">
+
+    <button onclick="enviar()">Enviar</button>
+
+    <br><br>
+    <a href="index.html">⬅ Volver al menú</a>
+
+  </div>
+
+  <script>
+    // BASE DE DATOS SIMULADA
+    const proveedores = [
+      { nombre: "EMPRESA UNO", rut: "12345678K" },
+      { nombre: "EMPRESA DOS", rut: "11111111-1" },
+      { nombre: "PROVEEDOR TEST", rut: "22222222-2" }
+    ];
+
+    // LIMPIAR RUT
+    function limpiarRut(rut) {
+      return rut
+        .toString()
+        .replace(/\./g, "")
+        .replace(/-/g, "")
+        .toUpperCase();
+    }
+
+    // BUSCAR PROVEEDOR
+    function buscar() {
+      const rut = document.getElementById("rut").value;
+      const rutLimpio = limpiarRut(rut);
+
+      let encontrado = "";
+
+      for (let i = 0; i < proveedores.length; i++) {
+        if (limpiarRut(proveedores[i].rut) === rutLimpio) {
+          encontrado = proveedores[i].nombre;
+          break;
+        }
+      }
+
+      if (encontrado) {
+        document.getElementById("resultado").textContent = encontrado;
+        document.getElementById("nombre").value = encontrado;
+      } else {
+        document.getElementById("resultado").textContent = "Proveedor no encontrado";
+      }
+    }
+
+    // SIMULACIÓN DE ENVÍO
+    function enviar() {
+      const nombre = document.getElementById("nombre").value;
+      const correo = document.getElementById("correo").value;
+
+      alert("Datos enviados:\nNombre: " + nombre + "\nCorreo: " + correo);
+    }
+  </script>
+
+</body>
+</html>
