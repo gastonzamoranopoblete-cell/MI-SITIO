@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<!-- Define el tipo de documento como HTML5 -->
+<html lang="es">
+<!-- El elemento raíz del documento con atributo para indicar idioma español -->
+<head>
+  <!-- Contenedor de metadatos y recursos para la página -->
+
+  <meta charset="UTF-8" />
+  <!-- Define la codificación de caracteres a UTF-8 para soportar caracteres especiales -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Configura la vista para dispositivos móviles con ancho igual al dispositivo y escala inicial 1 -->
+
+  <title>Formulario de Registro - Control Manual</title>
+  <!-- Título de la página que aparece en la pestaña del navegador -->
+
+
+  <!-- ===== BLOQUE ESTILOS CSS ===== -->
+  <style>
+    /* ===== ESTILOS GENERALES DE LA PÁGINA ===== */
+    body {
+      background-color: #33d7ff; /* Fondo celeste claro para visibilidad */
+      font-family: Arial, sans-serif; /* Fuente universal legible */
+      color: #000; /* Texto negro para buen contraste */
+      padding: 20px; /* Espacio interno general para no pegar contenido a bordes */
+    }
+
+    form {
+      background-color: #f2f2f2; /* Fondo gris claro para el formulario */
+      padding: 30px; /* Espaciado interno amplio */
+      border-radius: 10px; /* Bordes redondeados para suavidad visual */
+      max-width: 1000px; /* Máximo ancho para evitar estiramiento excesivo */
+      margin: auto; /* Centrar horizontalmente */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra suave para profundidad */
+    }
+
+    h2 {
+      text-align: center; /* Centrar título principal */
+      margin-bottom: 30px; /* Separación inferior */
+    }
+
+    h3 {
+      margin-top: 30px; /* Separación superior para subtítulos */
+      margin-bottom: 15px; /* Separación inferior */
+      color: #333; /* Color gris oscuro para diferencia visual */
+      font-size: 18px; /* Tamaño legible para subtítulos */
+    }
+
+    /* ===== FILAS PARA AGRUPAR GRUPOS ===== */
+    .fila-doble {
+      display: flex; /* Organiza elementos en fila horizontal flexible */
+      gap: 30px; /* Espacio entre elementos */
+      margin-bottom: 20px; /* Separación inferior */
+      flex-wrap: nowrap; /* No permite que los elementos se envuelvan a la siguiente línea */
+      width: 100%; /* Ocupa todo el ancho posible */
+      max-width: 800px; /* Ancho máximo para evitar estiramiento excesivo */
+    }
+
+    .fila-simple {
+      display: flex; /* Organiza elementos en fila horizontal flexible */
+      gap: 30px; /* Espacio entre elementos */
+      margin-bottom: 20px; /* Separación inferior */
+      flex-wrap: nowrap; /* No permite que los elementos se envuelvan a la siguiente línea */
+      width: 100%; /* Ocupa todo el ancho posible */
+      max-width: 600px; /* Ancho máximo para evitar estiramiento excesivo */
+    }
+
+
+    /* ===== ESTILOS BASE PARA GRUPOS (label + input/select) ===== */
+    .grupo {
+      display: flex; /* Organiza elementos en fila */
+      align-items: center; /* Alinea verticalmente al centro */
+      gap: 10px; /* Espacio entre label y campo */
+    }
+
+    .grupo label {
+      font-weight: bold; /* Texto en negrita */
+      white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+      padding-right: 0; /* Sin espacio a la derecha */
+    }
+
+    .grupo input,
+    .grupo select {
+      padding: 8px; /* Relleno interno para comodidad */
+      border: 1px solid #ccc; /* Borde gris claro */
+      border-radius: 5px; /* Bordes redondeados */
+      font-size: 14px; /* Tamaño legible */
+      color: #000; /* Texto negro */
+      background-color: #fff; /* Fondo blanco */
+      flex-shrink: 0; /* No reduce su tamaño al reducir el contenedor */
+    }
+
+    /* --- Grupo Rut --- */
+    #contenedor-rut {
+      display: flex; /* Organiza elementos en fila */
+      align-items: center; /* Alinea verticalmente al centro */
+      gap: 6px; /* Espacio entre elementos */
+      width: 200px; /* Ancho fijo para el contenedor */
+      margin-left: 0px; /* Sin margen izquierdo */
+      margin-right: 20px; /* Margen derecho para separación */
+    }
+
+    #contenedor-rut label {
+      min-width: 50px; /* Ancho mínimo para etiqueta */
+    }
+
+    #contenedor-rut input {
+      width: 105px; /* Ancho fijo para el input */
+      flex: none; /* No se adapta ni reduce */
+    }
+
+
+    /* --- Grupo Proveedor --- */
+    #contenedor-proveedor {
+      display: flex; /* Organiza elementos en fila */
+      align-items: center; /* Alinea verticalmente al centro */
+      gap: 6px; /* Espacio entre elementos */
+      width: 400px; /* Ancho fijo para el contenedor */
+      margin-left: 0px; /* Sin margen izquierdo */
+      margin-right: 0px; /* Sin margen derecho */
+    }
+
+    #contenedor-proveedor label {
+      min-width: 100px; /* Ancho mínimo para etiqueta */
+    }
+
+    #contenedor-proveedor input {
+      width: 280px; /* Ancho fijo para el input */
+      flex: none; /* No se adapta ni reduce */
+    }
+
+    /* --- Grupo OC (Una etiqueta + dos inputs + un select) --- */
+    #contenedor-oc {
+      display: flex; /* Organiza elementos en fila */
+      align-items: center; /* Alinea verticalmente al centro */
+      gap: 6px; /* Espacio entre elementos */
+      width: 380px; /* Ancho fijo para el contenedor */
+      margin-left: 0px; /* Sin margen izquierdo */
+      margin-right: 0px; /* Sin margen derecho */
+    }
+
+    #contenedor-oc label {
+      min-width: 40px; /* Ancho mínimo para etiqueta */
+    }
+
+    #oc1 {
+      width: 90px; /* Ancho fijo para input oc1 */
+      flex: none; /* No se adapta ni reduce */
+    }
+
+    #oc2 {
+      width: 50px; /* Ancho fijo para input oc2 */
+      flex: none; /* No se adapta ni reduce */
+    }
+
+    #oc3 {
+      width: 70px; /* Ancho fijo para select oc3 */
+      padding: 6px; /* Relleno interno */
+      flex: none; /* No se adapta ni reduce */
+      border: 1px solid #ccc; /* Borde gris claro */
+      border-radius: 5px; /* Bordes redondeados */
+      font-size: 14px; /* Tamaño legible */
+      color: #000; /* Texto negro */
+      background-color: #fff; /* Fondo blanco */
+      white-space: nowrap; /* No permite salto de línea */
+      overflow: hidden; /* Oculta contenido sobrante */
+      text-overflow: ellipsis; /* Muestra "..." si contenido es muy largo */
+    }
+
+
+    /* --- Grupo Tipo de Compra (DESHABILITADO POR EL MOMENTO) --- */
+    #contenedor-tipodecompra {
+      display: none; /* Oculto, no visible */
+      align-items: center; /* Alinea verticalmente al centro (aunque oculto) */
+      gap: 15px; /* Espacio entre elementos */
+      width: 180px; /* Ancho fijo */
+      margin-left: 100px; /* Margen izquierdo para separación */
+      margin-right: 0px; /* Sin margen derecho */
+    }
+
+    #contenedor-tipodecompra label {
+      min-width: 110px; /* Ancho mínimo para etiqueta */
+    }
+
+    #contenedor-tipodecompra select {
+      width: 60px; /* Ancho fijo para select */
+      padding: 6px; /* Relleno interno */
+      flex: none; /* No se adapta ni reduce */
+      border: 1px solid #ccc; /* Borde gris claro */
+      border-radius: 5px; /* Bordes redondeados */
+      font-size: 14px; /* Tamaño legible */
+      color: #000; /* Texto negro */
+      background-color: #fff; /* Fondo blanco */
+      white-space: nowrap; /* No permite salto de línea */
+      overflow: hidden; /* Oculta contenido sobrante */
+      text-overflow: ellipsis; /* Muestra "..." si contenido es muy largo */
+    }
+
+    /* ===== CONTENEDOR FIJO PARA FECHA Y HORA ACTUAL ===== */
+    #reloj {
+      position: absolute;                 /* Posición flotante para estar siempre visible */
+      top: 20px;                          /* Separación desde parte superior */
+      right: 20px;                        /* Separación desde borde derecho */
+      text-align: right;                 /* Alinea texto a la derecha */
+      font-size: 16px;                   /* Tamaño de fuente legible */
+      font-weight: bold;                 /* Texto en negrita */
+      color: #000;                       /* Color negro para texto */
+      background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente blanco */
+      padding: 10px 15px;                /* Relleno interno */
+      border-radius: 8px;                /* Bordes redondeados */
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+      z-index: 1000;                     /* Capa encima de otros elementos */
+    }
+  </style>
+
+
+  <!-- ===== BLOQUE SCRIPT JAVASCRIPT ===== -->
+  <script>
+    // Función que se ejecuta cuando cambia el contenido del campo RUT
+    function buscarProveedorPorRut() {
+      const rutInput = document.getElementById('rut'); // Obtiene el input RUT
+      const proveedorInput = document.getElementById('proveedor'); // Obtiene el input proveedor
+      const rut = rutInput.value.trim(); // Toma el valor y elimina espacios en blanco al inicio y fin
+
+      if (rut === '') {
+        proveedorInput.value = ''; // Si el RUT está vacío, limpia el proveedor
+        return; // Termina la función
+      }
+
+      // Llamada a Google Apps Script para buscar proveedor por RUT
+      google.script.run
+        .withSuccessHandler(function(proveedorEncontrado) {
+          if (proveedorEncontrado) {
+            proveedorInput.value = proveedorEncontrado; // Rellena proveedor si se encontró
+          } else {
+            proveedorInput.value = ''; // Si no encontró, limpia proveedor
+          }
+        })
+        .withFailureHandler(function(error) {
+          proveedorInput.value = ''; // En caso de error, limpia proveedor
+          console.error('Error al buscar proveedor:', error); // Muestra error en consola
+        })
+        .buscarProveedorPorRut(rut); // Llama a función GAS con el RUT
+    }
+
+    // Al cargar la página, agrega evento al campo RUT
+    window.onload = function() {
+      const rutInput = document.getElementById('rut'); // Obtiene input RUT
+      rutInput.addEventListener('change', buscarProveedorPorRut); // Evento al cambiar valor
+    };
+
+
+    // ===== FUNCIÓN PARA MOSTRAR FECHA Y HORA EN TIEMPO REAL =====
+    function actualizarFechaHora() {
+      const fechaEl = document.getElementById('fecha'); // Elemento para fecha
+      const horaEl = document.getElementById('hora'); // Elemento para hora
+      const ahora = new Date(); // Fecha y hora actuales
+
+      const opcionesFecha = {
+        weekday: 'long', // Día de la semana completo
+        year: 'numeric', // Año numérico completo
+        month: 'long', // Mes completo
+        day: 'numeric' // Día numérico
+      };
+
+      // Obtiene texto de fecha en español de Chile y con formato detallado
+      const fechaTexto = ahora.toLocaleDateString('es-CL', opcionesFecha);
+      // Obtiene texto de hora en formato 24 horas sin AM/PM
+      const horaTexto = ahora.toLocaleTimeString('es-CL', { hour12: false });
+
+      // Pone mayúscula inicial en fecha y la asigna al elemento correspondiente
+      fechaEl.textContent = fechaTexto.charAt(0).toUpperCase() + fechaTexto.slice(1);
+      horaEl.textContent = horaTexto; // Asigna texto de hora
+    }
+
+    setInterval(actualizarFechaHora, 1000); // Actualiza fecha y hora cada segundo
+    actualizarFechaHora(); // Primera ejecución inmediata para mostrar sin esperar
+  </script>
+</head>
+
+<body>
+
+
+  <!-- ===== CONTENEDOR DE FECHA Y HORA EN ESQUINA DERECHA SUPERIOR ===== -->
+ <div id="reloj">
+   <!-- Este div es el contenedor principal para mostrar la fecha y hora. -->
+   <div id="fecha"></div>
+   <!-- Este div está destinado a mostrar la fecha, que normalmente se actualizará con JavaScript. -->
+   <div id="hora"></div>
+   <!-- Este div está destinado a mostrar la hora, que normalmente se actualizará con JavaScript. -->
+ </div>
+
+ <!-- Título principal -->
+ <h2>Formulario de Registro</h2>
+ <!-- Este es el encabezado principal de la página o sección del formulario. -->
+
+ <!-- Formulario con control manual -->
+<form id="registroUsuario">
+   <!-- Esta etiqueta marca el inicio del formulario de registro, identificado por 'registroUsuario' para su manipulación con JavaScript. -->
+
+   <!-- Sección Datos del Proveedor -->
+   <h3>Datos del Proveedor</h3>
+   <!-- Este subtítulo introduce la sección donde se ingresarán los datos del proveedor. -->
+
+   <div class="fila-doble">
+     <!-- Este contenedor se utiliza para agrupar elementos que se mostrarán en una disposición de dos columnas o en una "fila doble", estilizada con CSS. -->
+
+     <!-- Contenedor Rut -->
+     <div class="grupo" id="contenedor-rut">
+       <!-- Este div agrupa la etiqueta y el campo de entrada para el Rut. La clase 'grupo' es para estilos y el id 'contenedor-rut' para identificación específica. -->
+       <label for="rut">Rut:</label>
+       <!-- Esta etiqueta describe el campo de entrada "Rut:" y está asociada al input con id 'rut' para accesibilidad. -->
+       <input
+         type="text"
+         id="rut"
+         name="rut"
+         placeholder="Ej: 12345678-9"
+         autocomplete="off"
+         maxlength="12"
+       />
+       <!-- Este es el campo de entrada de texto para el Rut.
+            - 'type="text"' define que la entrada será texto.
+            - 'id="rut"' es un identificador único para este elemento en el documento.
+            - 'name="rut"' es el nombre del campo que se enviará con los datos del formulario.
+            - 'placeholder' muestra un texto de ejemplo cuando el campo está vacío.
+            - 'autocomplete="off"' desactiva las sugerencias de autocompletado del navegador.
+            - 'maxlength="10"' limita la cantidad de caracteres que el usuario puede ingresar. -->
+     </div>
+
+     <!-- Contenedor Proveedor -->
+     <div class="grupo" id="contenedor-proveedor">
+       <!-- Este div agrupa la etiqueta y el campo de entrada para el Nombre del Proveedor. -->
+       <label for="proveedor">Proveedor:</label>
+       <!-- Esta etiqueta describe el campo de entrada "Proveedor:" y está asociada al input con id 'proveedor'. -->
+       <input
+         type="text"
+         id="proveedor"
+         name="proveedor"
+         placeholder="Nombre proveedor"
+         autocomplete="off"
+         readonly
+       />
+       <!-- Este es el campo de entrada de texto para el nombre del proveedor.
+            - 'readonly' significa que el usuario no puede modificar directamente este campo. Su valor podría ser llenado por JavaScript. -->
+     </div>
+   </div>
+
+   <!-- Sección Orden de Compra -->
+   <h3>Orden de Compra</h3>
+   <!-- Este subtítulo introduce la sección para la información de la Orden de Compra. -->
+
+   <div class="fila-simple">
+     <!-- Este contenedor se utiliza para agrupar elementos en una sola fila o una disposición simple. -->
+     <!-- Contenedor OC -->
+     <div class="grupo" id="contenedor-oc">
+       <!-- Este div agrupa los campos de entrada y selección relacionados con la Orden de Compra (OC). -->
+       <label for="oc1">OC:</label>
+       <!-- Esta etiqueta describe el campo "OC:" y está asociada al primer campo de OC. -->
+       <input
+         type="text"
+         id="oc1"
+         name="oc1"
+         maxlength="6"
+         autocomplete="off"
+         placeholder="Ej: 123456"
+       />
+       <!-- Este es el primer campo de texto para la Orden de Compra, que permite 6 caracteres. -->
+       <span>-</span>
+       <!-- Este elemento span simplemente muestra un guion como separador visual entre los campos de OC. -->
+       <input
+         type="text"
+         id="oc2"
+         name="oc2"
+         maxlength="2"
+         autocomplete="off"
+         placeholder="Ej: 01"
+       />
+       <!-- Este es el segundo campo de texto para la Orden de Compra, que permite 2 caracteres. -->
+       <span>-</span>
+       <!-- Otro separador visual. -->
+       <select id="oc3" name="oc3">
+         <!-- Este es un menú desplegable para la tercera parte de la Orden de Compra. -->
+         <option value="AG">AG</option>
+         <!-- Una opción dentro del menú desplegable con el valor "AG". -->
+         <option value="CM">CM</option>
+         <!-- Otra opción con el valor "CM". -->
+         <option value="SE">SE</option>
+         <!-- Otra opción con el valor "SE". -->
+       </select>
+     </div>
+   </div>
+
+
+  <!-- ===== BLOQUE: Grupo Tipo de Compra (Oculto por defecto) ===== -->
+<div class="grupo" id="contenedor-tipodecompra" style="display:none;">
+  <!-- Este <div> agrupa los elementos relacionados con el Tipo de Compra.
+       Tiene el atributo 'style="display:none;"' para estar oculto inicialmente
+       y poder mostrarse dinámicamente con JavaScript cuando sea necesario. -->
+
+  <label for="tipodecompra">Tipo de Compra:</label>
+  <!-- Etiqueta descriptiva para el campo de selección desplegable "tipodecompra".
+       El atributo 'for="tipodecompra"' se vincula con el 'id' del <select>. -->
+
+  <select id="tipodecompra" name="tipodecompra">
+    <!-- Menú desplegable (<select>) con el ID y nombre "tipodecompra".
+         Permite seleccionar una de las opciones de tipo de compra. -->
+
+    <option value="AG">AG</option>
+    <!-- Opción dentro del desplegable con valor "AG", por ejemplo "Adquisición General". -->
+
+    <option value="CM">CM</option>
+    <!-- Opción con valor "CM", por ejemplo "Compra Menor". -->
+
+    <option value="SE">SE</option>
+    <!-- Opción con valor "SE", por ejemplo "Servicio Externo". -->
+
+  </select>
+</div>
+<!-- ===== FIN BLOQUE: Grupo Tipo de Compra ===== -->
+
+
+ </form>
+ <!-- Esta etiqueta marca el final del formulario. -->
+
+   <!-- Aquí colocas el script para enviar y validar -->
+<script>
+  // Código para capturar datos y llamar a guardarDatos
+  
+  function enviarFormulario() {
+  // ===== BLOQUE: CAPTURA DE DATOS DEL FORMULARIO =====
+  const datos = {
+    rut: document.getElementById("rut").value,
+    // Captura el valor ingresado en el campo de texto con ID "rut"
+
+    proveedor: document.getElementById("proveedor").value,
+    // Captura el valor del campo con ID "proveedor"
+
+    oc1: document.getElementById("oc1").value,
+    // Captura el valor del campo con ID "oc1" (parte 1 de la OC)
+
+    oc2: document.getElementById("oc2").value,
+    // Captura el valor del campo con ID "oc2" (parte 2 de la OC)
+
+    oc3: document.getElementById("oc3").value
+    // Captura el valor del campo con ID "oc3" (parte 3 de la OC)
+  };
+
+  // ===== BLOQUE: LLAMADA A GOOGLE APPS SCRIPT =====
+  google.script.run
+    .withSuccessHandler(() => {
+      // Define el comportamiento si la ejecución en el servidor fue exitosa
+
+      alert("Datos guardados correctamente.");
+      // Muestra un mensaje de confirmación al usuario
+
+      document.getElementById("registroUsuario").reset();
+      // Limpia (resetea) todos los campos del formulario con ID "registroUsuario"
+    })
+    .withFailureHandler((error) => {
+      // Define el comportamiento en caso de que ocurra un error en la ejecución del servidor
+
+      alert("Error: " + error.message);
+      // Muestra el mensaje de error recibido desde el servidor
+    })
+    .guardarDatos(datos);
+    // Llama a la función de servidor "guardarDatos", pasando el objeto "datos" como argumento
+}
+
+
+  // Captura el evento submit para evitar recarga y usar enviarFormulario
+  // Captura el evento submit para evitar recarga de página y llama a enviarFormulario
+  document.getElementById("registroUsuario").addEventListener("submit", function(event) {
+    event.preventDefault(); // Evita que se recargue la página
+    enviarFormulario();     // Llama a la función que envía los datos a Apps Script
+  });
+</script>
+
+
+<script>
+  // ===== BLOQUE: Validar dígito verificador del RUT =====
+  function validarRut(rut) {
+    if (typeof rut !== 'string') return false;
+    rut = rut.replace(/\./g, '').replace('-', '');
+    if (rut.length < 8) return false;
+
+    let suma = 0;
+    let multiplo = 2;
+
+    for (let i = rut.length - 2; i >= 0; i--) {
+      suma += parseInt(rut.charAt(i)) * multiplo;
+      multiplo = multiplo === 7 ? 2 : multiplo + 1;
+    }
+
+    let dvEsperado = 11 - (suma % 11);
+    let dv = rut.charAt(rut.length - 1).toUpperCase();
+
+    if (dvEsperado === 11) dvEsperado = '0';
+    else if (dvEsperado === 10) dvEsperado = 'K';
+    else dvEsperado = dvEsperado.toString();
+
+    return dv === dvEsperado;
+  }
+
+  // ===== BLOQUE: Formatear RUT con puntos, guion y ceros a la izquierda =====
+  function formatearRut(rut) {
+    rut = rut.toUpperCase().replace(/[^0-9K]/g, '');
+
+    if (rut.length === 0) return '';
+
+    let dv = rut.slice(-1);
+    let cuerpo = rut.slice(0, -1);
+
+    cuerpo = cuerpo.padStart(8, '0'); // Rellenar con ceros a la izquierda
+
+    let resultado = '';
+    while (cuerpo.length > 3) {
+      resultado = '.' + cuerpo.slice(-3) + resultado;
+      cuerpo = cuerpo.slice(0, -3);
+    }
+    resultado = cuerpo + resultado;
+
+    return resultado + '-' + dv;
+  }
+
+
+  // ===== BLOQUE: Manejo de input y validación en tiempo real =====
+  const inputRut = document.getElementById('inputRut');
+  let mensajeErrorRut = document.createElement('div');
+  mensajeErrorRut.style.color = 'red';
+  mensajeErrorRut.style.fontSize = '0.9em';
+  mensajeErrorRut.style.marginTop = '5px';
+  inputRut.parentNode.insertBefore(mensajeErrorRut, inputRut.nextSibling);
+
+  inputRut.addEventListener('input', function (e) {
+    let valorSinFormato = e.target.value.toUpperCase().replace(/[^0-9K]/g, '');
+
+    if (valorSinFormato.length === 0) {
+      e.target.value = '';
+      mensajeErrorRut.textContent = '';
+      return;
+    }
+
+    if (valorSinFormato.length < 2) {
+      // No formatear ni validar aún si no hay al menos cuerpo y DV
+      e.target.value = valorSinFormato;
+      mensajeErrorRut.textContent = '';
+      return;
+    }
+
+
+    // Formatear con ceros a la izquierda
+    let formateado = formatearRut(valorSinFormato);
+    e.target.value = formateado;
+
+    // Validar solo si hay 8 dígitos + DV
+    if (valorSinFormato.length === 9) {
+      if (!validarRut(formateado)) {
+        mensajeErrorRut.textContent = 'RUT inválido';
+      } else {
+        mensajeErrorRut.textContent = '';
+      }
+    } else {
+      mensajeErrorRut.textContent = '';
+    }
+  });
+
+
+  // ===== BLOQUE: Validar RUT antes de enviar el formulario =====
+  const formulario = document.getElementById('registroUsuario');
+  formulario.addEventListener('submit', function (e) {
+    if (!validarRut(inputRut.value)) {
+      e.preventDefault();
+      mensajeErrorRut.textContent = 'Debe ingresar un RUT válido antes de enviar';
+      inputRut.focus();
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputRut = document.getElementById('rut');
+
+    inputRut.addEventListener('input', function (e) {
+      let valor = e.target.value.replace(/\./g, '').replace(/-/g, '').toUpperCase();
+      if (valor.length <= 1) {
+        e.target.value = valor;
+        return;
+      }
+
+      let cuerpo = valor.slice(0, -1);
+      let dv = valor.slice(-1);
+      let rutFormateado = '';
+
+      while (cuerpo.length > 3) {
+        rutFormateado = '.' + cuerpo.slice(-3) + rutFormateado;
+        cuerpo = cuerpo.slice(0, -3);
+      }
+      rutFormateado = cuerpo + rutFormateado + '-' + dv;
+
+      e.target.value = rutFormateado;
+    });
+  });
+</script>
+
+</body>
+</html>
+
+

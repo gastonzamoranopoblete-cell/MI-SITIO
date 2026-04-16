@@ -1,0 +1,52 @@
+// === FUNCIÓN PRINCIPAL DE CARGA ===
+// Esta función se ejecuta cuando accedes al Web App.
+// Carga el archivo HTML 'formulario' que contiene todo el diseño visual.
+function doGet() {
+  return HtmlService
+    .createHtmlOutputFromFile('Copia de MenuPrincipal') // Carga el HTML llamado 'formulario.html'
+    .setTitle('Formulario de Registro - Control Manual') // Título del navegador
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL); // Permite insertar si usas <iframe>
+}
+
+// === FUNCIÓN PARA LIMPIAR UN RUT ===
+// Esta función elimina puntos (.) y guiones (-), y convierte el texto a mayúsculas.
+// Se aplica tanto al RUT ingresado como a los RUT almacenados.
+function limpiarRut(rut) {
+  return rut
+    .toString()             // Asegura que sea texto
+    .replace(/\./g, "")     // Quita todos los puntos
+    .replace(/-/g, "")      // Quita el guion
+    .toUpperCase();         // Convierte todo a mayúsculas
+}
+
+// === FUNCIÓN PARA BUSCAR EL PROVEEDOR POR RUT CON CACHE ===
+// Esta función es llamada desde el formulario con google.script.run
+// Recibe un RUT (sin formato), lo busca en la hoja 'PROVEEDORES'
+// Usa CacheService para acelerar búsquedas repetidas.
+function buscarProveedorPorRut(rut) {
+  const cache = CacheService.getScriptCache();
+  const rutLimpio = limpiarRut(rut);
+  
+  // Intenta obtener el resultado desde la caché
+  let nombreProveedor = cache.get(rutLimpio);
+  if (nombreProveedor !== null) {
+    return nombreProveedor; // Retorna resultado cacheado rápido
+  }
+  
+  // Si no está en cache, busca en la hoja
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const hoja = ss.getSheetByName("PROVEEDORES");
+  const datos = hoja.getRange("A2:B" + hoja.getLastRow()).getValues();
+
+  for (let i = 0; i < datos.length; i++) {
+    const nombre = datos[i][0];
+    const rutEnHoja = limpiarRut(datos[i][1]);
+    if (rutEnHoja === rutLimpio) {
+      nombreProveedor = nombre;
+      cache.put(rutLimpio, nombreProveedor, 21600); // Cache por 6 horas (21600 segundos)
+      return nombreProveedor;
+    }
+  }
+  
+  return ""; // No encontró proveedor
+}
